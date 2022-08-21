@@ -39,22 +39,24 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.audio.ring.filter.mask=0 \
     ro.audio.monitorRotation=true \
     ro.config.vc_call_vol_steps=11 \
-    ro.vendor.audio.enhance.support=false \
+    ro.vendor.audio.dump.mixer=true \
+    ro.vendor.audio.feature.fade=true \
     ro.vendor.audio.gain.support=true \
+    ro.vendor.audio.game.effect=true \
     ro.vendor.audio.karaok.support=true \
-    ro.vendor.audio.ns.support=false \
+    ro.vendor.audio.multiroute=true \
     ro.vendor.audio.scenario.support=true \
     ro.vendor.audio.sdk.fluencetype=fluence \
+    ro.vendor.audio.shortvideo.index=80 \
     ro.vendor.audio.soundfx.type=mi \
     ro.vendor.audio.soundfx.usb=true \
     ro.vendor.audio.us.proximity=true \
-    ro.vendor.audio.us.type=mius \
-    ro.vendor.audio.zoom.support=true \
-    ro.vendor.audio.zoom.type=1 \
+    ro.vendor.audio.voice.volume.boost=none \
     vendor.audio.adm.buffering.ms=6 \
     vendor.audio.feature.dynamic_ecns.enable=false \
     vendor.audio.feature.spkr_prot.enable=false \
     vendor.audio.hal.output.suspend.supported=false \
+    vendor.audio.lowpower=true \
     vendor.audio.offload.track.enable=false \
     vendor.audio.spkcal.copy.inhal=true \
     vendor.audio.usb.disable.sidetone=true
@@ -77,10 +79,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.fflag.override.settings_bluetooth_hearing_aid=true \
     persist.vendor.qcom.bluetooth.a2dp_mcast_test.enabled=false \
-    persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac-aptxadaptiver2 \
+    persist.vendor.qcom.bluetooth.a2dp_offload_cap=sbc-aptx-aptxtws-aptxhd-aac-ldac-aptxadaptiver2-lhdc \
     persist.vendor.qcom.bluetooth.aac_frm_ctl.enabled=true \
     persist.vendor.qcom.bluetooth.aac_vbr_ctl.enabled=true \
-    persist.vendor.qcom.bluetooth.aptxadaptiver2_1_support=false \
     persist.vendor.qcom.bluetooth.enable.splita2dp=true \
     persist.vendor.qcom.bluetooth.scram.enabled=false \
     persist.vendor.qcom.bluetooth.soc=hastings \
@@ -123,13 +124,6 @@ PRODUCT_PACKAGES += \
 # Charging
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
     ro.charger.enable_suspend=1
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.vendor.cp.fcc_main_ua=400000 \
-    persist.vendor.cp.taper_term_mv=7000 \
-    persist.vendor.cp.qc3p5_vfloat_offset_uv=110000 \
-    persist.vendor.pps.disallowed=1 \
-    persist.vendor.hvdcp_opti.disallowed=1
 
 # Config Store
 PRODUCT_PACKAGES += \
@@ -190,9 +184,15 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/fingerprint/uinput-fpc.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/uinput-fpc.kl \
     $(LOCAL_PATH)/configs/fingerprint/uinput-fpc.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput-fpc.idc \
+    $(LOCAL_PATH)/configs/fingerprint/uinput-fpc.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/uinput-fpc.kl \
+    $(LOCAL_PATH)/configs/fingerprint/uinput-goodix.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/uinput-goodix.idc \
+    $(LOCAL_PATH)/configs/fingerprint/uinput-goodix.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/uinput-goodix.kl \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.hardware.fp.vendor=fpc,goodix \
+    ro.hardware.fp.sideCap=true
 
 # FRP
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -242,10 +242,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
-# NFC
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/nfc/,$(TARGET_COPY_OUT_VENDOR)/etc)
-
 # Overlays
 PRODUCT_PACKAGES += \
     AliothFrameworks \
@@ -272,11 +268,12 @@ TARGET_BOARD_PLATFORM := kona
 
 # QCRIL
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.vendor.radio.cdma_cap=true \
     persist.vendor.radio.data_con_rprt=1 \
     persist.vendor.radio.data_ltd_sys_ind=1 \
+    persist.vendor.radio.dynamic_sar=1 \
     persist.vendor.radio.force_ltd_sys_ind=1 \
-    persist.vendor.radio.manual_nw_rej_ct=1
+    persist.vendor.radio.manual_nw_rej_ct=1 \
+    persist.vendor.radio.ucdetect.usb=true
 
 # QTI
 TARGET_COMMON_QTI_COMPONENTS := all
@@ -341,7 +338,7 @@ PRODUCT_PACKAGES += \
     vndservicemanager
 
 # Vendor
-$(call inherit-product, vendor/xiaomi/alioth/alioth-vendor.mk)
+$(call inherit-product, vendor/xiaomi/munch/munch-vendor.mk)
 
 # Verified Boot
 PRODUCT_COPY_FILES += \

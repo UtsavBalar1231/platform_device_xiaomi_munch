@@ -9,7 +9,7 @@
 
 set -e
 
-DEVICE=alioth
+DEVICE=munch
 VENDOR=xiaomi
 
 # Load extract utilities and do some sanity checks.
