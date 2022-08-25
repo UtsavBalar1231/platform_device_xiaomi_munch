@@ -15,3 +15,6 @@ r_dir_file(hal_camera_default, vendor_persist_sensors_file)
 
 # Allow hal_camera_default to read in vendor_sysfs_kgsl
 r_dir_file(hal_camera_default, vendor_sysfs_kgsl)
+
+# Allow camera HAL to write to sys_thermal_flash_state
+allow hal_camera_default sys_thermal_flash_state:file w_file_perms;
