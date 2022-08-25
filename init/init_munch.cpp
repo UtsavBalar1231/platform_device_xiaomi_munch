@@ -43,41 +43,50 @@ void load_dalvikvm_properties() {
     }
 }
 
-void load_redmi_k40() {
-    property_override("bluetooth.device.default_name", "Redmi K40");
-    property_override("ro.product.brand", "Redmi");
-    property_override("ro.product.device", "alioth");
-    property_override("ro.product.manufacturer", "Xiaomi");
-    property_override("ro.product.model", "M2012K11AC");
-    property_override("ro.product.name", "alioth");
-}
-
-void load_poco_f3() {
-    property_override("bluetooth.device.default_name", "POCO F3");
+void load_redmi_k40s() {
+    property_override("bluetooth.device.default_name", "Redmi K40S");
     property_override("ro.product.brand", "POCO");
-    property_override("ro.product.device", "alioth");
+    property_override("ro.product.model", "22021211RC");
+    property_override("ro.product.brand", "Redmi");
+    property_override("ro.product.device", "munch");
     property_override("ro.product.manufacturer", "Xiaomi");
-    property_override("ro.product.model", "M2012K11AG");
-    property_override("ro.product.name", "alioth");
+    property_override("ro.product.marketname", "Redmi K40S");
+    property_override("ro.product.model", "22021211RC");
+    property_override("ro.product.name", "munch");
 }
 
-void load_xiaomi_mi11x() {
-    property_override("bluetooth.device.default_name", "Mi 11X");
-    property_override("ro.product.brand", "Mi");
-    property_override("ro.product.device", "alioth");
+void load_poco_f4_g() {
+    property_override("bluetooth.device.default_name", "POCO F4");
+    property_override("ro.product.brand", "POCO");
+    property_override("ro.product.model", "22021211RG");
+    property_override("ro.product.brand", "POCO");
+    property_override("ro.product.device", "munch");
     property_override("ro.product.manufacturer", "Xiaomi");
-    property_override("ro.product.model", "M2012K11AI");
-    property_override("ro.product.name", "alioth");
+    property_override("ro.product.marketname", "POCO F4");
+    property_override("ro.product.model", "22021211RG");
+    property_override("ro.product.name", "munch_id");
+}
+
+void load_poco_f4_in() {
+    property_override("bluetooth.device.default_name", "POCO F4");
+    property_override("ro.product.brand", "POCO");
+    property_override("ro.product.model", "22021211RI");
+    property_override("ro.product.brand", "POCO");
+    property_override("ro.product.device", "munch");
+    property_override("ro.product.manufacturer", "Xiaomi");
+    property_override("ro.product.marketname", "POCO F4");
+    property_override("ro.product.model", "22021211RI");
+    property_override("ro.product.name", "munch_in");
 }
 
 void vendor_load_properties() {
     std::string region = GetProperty("ro.boot.hwc", "");
     if (region.find("INDIA") != std::string::npos) {
-        load_xiaomi_mi11x();
+        load_poco_f4_in();
     } else if (region.find("CN") != std::string::npos) {
-        load_redmi_k40();
+        load_redmi_k40s();
     } else {
-        load_poco_f3();
+        load_poco_f4_g();
     }
 
     load_dalvikvm_properties();

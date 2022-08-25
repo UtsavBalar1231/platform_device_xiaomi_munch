@@ -240,12 +240,12 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    init.alioth.rc \
+    init.munch.rc \
     init.mi.btmac.sh \
     init.mi.usb.sh \
     init.qti.dcvs.sh \
     init.target.rc \
-    ueventd.alioth.rc
+    ueventd.munch.rc
 
 # Keymaster
 PRODUCT_VENDOR_PROPERTIES += \
