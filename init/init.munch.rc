@@ -1,9 +1,7 @@
 import /vendor/etc/init/init.batterysecret.rc
+import /vendor/etc/init/init.batteryd.rc
 import /vendor/etc/init/init.mi_thermald.rc
 import /vendor/etc/init/init.charge_logger.rc
-
-on init
-    chown system system /proc/last_kmsg
 
 on fs
     mkdir /mnt/vendor/persist/haptics 0755 system system
@@ -15,6 +13,15 @@ on fs
     mkdir /mnt/vendor/persist/subsys 0770 root system
     chmod 0644 /dev/elliptic0
     chmod 0644 /dev/elliptic1
+    chown system system /dev/tfa_reg
+    chown system system /dev/tfa_rw
+    chown system system /dev/tfa_rpc
+    chown system system /dev/tfa_control
+    chmod 0660 /dev/tfa_reg
+    chmod 0660 /dev/tfa_rw
+    chmod 0660 /dev/tfa_rpc
+    chmod 0660 /dev/tfa_control
+    chmod 0666 /dev/xlog
     chown system system /sys/devices/platform/soc/a8c000.i2c/i2c-2/2-005a/custom_wave
     chmod 0666  /sys/devices/platform/soc/a8c000.i2c/i2c-2/2-005a/custom_wave
 
@@ -35,8 +42,10 @@ on post-fs-data
 on boot
     chown system system /sys/touchpanel/double_tap
     chown system system /sys/class/touch/touch_dev/palm_sensor
-    chown system system /sys/class/touch/touch_dev/partial_diff_data
+    chmod 0664 /sys/class/power_supply/battery/dc_thermal_levels
     chown system system /sys/class/thermal/thermal_message/sconfig
+    chown system system /sys/class/thermal/thermal_message/balance_mode
+    chown cameraserver cameraserver /sys/class/thermal/thermal_message/flash_state
     copy  /vendor/etc/tunings.txt /mnt/vendor/persist/vpp/tunings.txt
     mkdir /mnt/vendor/persist/camera 0755 system cameraserver
     write /sys/block/sda/queue/wbt_lat_usec 75000
@@ -62,7 +71,7 @@ service vendor.audio-hal /vendor/bin/hw/android.hardware.audio.service
     group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct oem_2901 wakelock
     capabilities BLOCK_SUSPEND
     ioprio rt 4
-    writepid /dev/cpuset/foreground/tasks /dev/stune/foreground/tasks
+    task_profiles ProcessCapacityHigh HighPerformance
     socket audio_hw_socket seqpacket 0666 system system
     onrestart restart audioserver
 
@@ -81,13 +90,3 @@ service vendor.btmac-sh /vendor/bin/init.mi.btmac.sh
     group system bluetooth wifi
     oneshot
     disabled
-
-service nqnfc_2_0_hal_service /vendor/bin/hw/vendor.nxp.hardware.nfc@2.0-service
-    override
-    class hal
-    user nfc
-    group nfc
-    disabled
-
-on boot && property:ro.boot.product.hardware.sku=pro
-    enable nqnfc_2_0_hal_service

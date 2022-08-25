@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <vector>
-
 #include <android-base/properties.h>
+
+#include <vector>
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <sys/_system_properties.h>
 #include <sys/sysinfo.h>
@@ -23,9 +23,9 @@
 using android::base::GetProperty;
 
 void property_override(char const prop[], char const value[], bool add = true) {
-    prop_info* pi;
+    prop_info *pi;
 
-    pi = (prop_info*)__system_property_find(prop);
+    pi = (prop_info *)__system_property_find(prop);
     if (pi)
         __system_property_update(pi, value, strlen(value));
     else if (add)
@@ -35,46 +35,58 @@ void property_override(char const prop[], char const value[], bool add = true) {
 void load_dalvikvm_properties() {
     struct sysinfo sys;
     sysinfo(&sys);
-    if(sys.totalram > 6144ull * 1024 * 1024) {
-    // from - phone-xhdpi-8192-dalvik-heap.mk
+    if (sys.totalram > 6144ull * 1024 * 1024) {
+        // from - phone-xhdpi-8192-dalvik-heap.mk
         property_override("dalvik.vm.heapstartsize", "24m");
         property_override("dalvik.vm.heaptargetutilization", "0.46");
         property_override("dalvik.vm.heapmaxfree", "48m");
     }
 }
 
-void load_redmi_k40() {
-    property_override("ro.product.model", "M2012K11AC");
-    property_override("ro.product.brand", "Redmi");
-    property_override("ro.product.vendor.manufacturer", "Xiaomi");
-    property_override("ro.product.vendor.brand", "Redmi");
-    property_override("ro.product.vendor.model", "M2012K11AC");
-}
-
-void load_poco_f3() {
-    property_override("ro.product.model", "M2012K11AG");
+void load_redmi_k40s() {
     property_override("ro.product.brand", "POCO");
+    property_override("ro.product.model", "22021211RC");
+    property_override("ro.product.vendor.brand", "Redmi");
+    property_override("ro.product.vendor.cert", "22021211RC");
+    property_override("ro.product.vendor.device", "munch");
     property_override("ro.product.vendor.manufacturer", "Xiaomi");
-    property_override("ro.product.vendor.brand", "POCO");
-    property_override("ro.product.vendor.model", "M2012K11AG");
+    property_override("ro.product.vendor.marketname", "Redmi K40S");
+    property_override("ro.product.vendor.model", "22021211RC");
+    property_override("ro.product.vendor.name", "munch");
 }
 
-void load_xiaomi_mi11x() {
-    property_override("ro.product.model", "M2012K11AI");
-    property_override("ro.product.brand", "Mi");
+void load_poco_f4_g() {
+    property_override("ro.product.brand", "POCO");
+    property_override("ro.product.model", "22021211RG");
+    property_override("ro.product.vendor.brand", "POCO");
+    property_override("ro.product.vendor.cert", "22021211RG");
+    property_override("ro.product.vendor.device", "munch");
     property_override("ro.product.vendor.manufacturer", "Xiaomi");
-    property_override("ro.product.vendor.brand", "Mi");
-    property_override("ro.product.vendor.model", "M2012K11AI");
+    property_override("ro.product.vendor.marketname", "POCO F4");
+    property_override("ro.product.vendor.model", "22021211RG");
+    property_override("ro.product.vendor.name", "munch");
+}
+
+void load_poco_f4_in() {
+    property_override("ro.product.brand", "POCO");
+    property_override("ro.product.model", "22021211RI");
+    property_override("ro.product.vendor.brand", "POCO");
+    property_override("ro.product.vendor.cert", "22021211RI");
+    property_override("ro.product.vendor.device", "munch");
+    property_override("ro.product.vendor.manufacturer", "Xiaomi");
+    property_override("ro.product.vendor.marketname", "POCO F4");
+    property_override("ro.product.vendor.model", "22021211RI");
+    property_override("ro.product.vendor.name", "munch_in");
 }
 
 void vendor_load_properties() {
     std::string region = GetProperty("ro.boot.hwc", "");
     if (region.find("INDIA") != std::string::npos) {
-        load_xiaomi_mi11x();
+        load_poco_f4_in();
     } else if (region.find("CN") != std::string::npos) {
-        load_redmi_k40();
+        load_redmi_k40s();
     } else {
-        load_poco_f3();
+        load_poco_f4_g();
     }
 
     load_dalvikvm_properties();
