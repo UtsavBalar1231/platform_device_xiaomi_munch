@@ -14,10 +14,12 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="android.overlay.target">
+    package="com.android.providers.settings.22021211RG">
 
     <overlay
         android:isStatic="true"
-        android:priority="750"
-        android:targetPackage="android" />
+        android:priority="800"
+        android:requiredSystemPropertyName="ro.boot.hwc"
+        android:requiredSystemPropertyValue="GLOBAL"
+        android:targetPackage="com.android.providers.settings" />
 </manifest>

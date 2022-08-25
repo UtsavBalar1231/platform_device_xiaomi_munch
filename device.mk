@@ -259,20 +259,18 @@ PRODUCT_SOONG_NAMESPACES += \
 
 # Overlays
 PRODUCT_PACKAGES += \
-    AliothFrameworks \
-    AliothSettings \
-    AliothSystemUI \
-    AOSPAAliothFrameworks \
-    AOSPAAliothSystemUI \
+    MunchFrameworks \
+    MunchSettings \
+    MunchSystemUI \
+    AOSPAMunchFrameworks \
+    AOSPAMunchSystemUI \
     FrameworksResTarget \
-    SettingsOverlayM2012K11AG \
-    SettingsOverlayM2012K11AI \
-    SettingsProviderM2012K11AC \
-    SettingsProviderM2012K11AG \
-    SettingsProviderM2012K11AI \
-    WifiOverlayM2012K11AC \
-    WifiOverlayM2012K11AG \
-    WifiOverlayM2012K11AI \
+    SettingsProvider22021211RC \
+    SettingsProvider22021211RG \
+    SettingsProvider22021211RI \
+    WifiOverlay22021211RC \
+    WifiOverlay22021211RG \
+    WifiOverlay22021211RI \
     WifiResTarget
 
 # Partitions

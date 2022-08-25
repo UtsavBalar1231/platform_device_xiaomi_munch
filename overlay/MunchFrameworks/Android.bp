@@ -13,7 +13,7 @@
 // limitations under the License.
 
 runtime_resource_overlay {
-    name: "WifiResTarget",
+    name: "MunchFrameworks",
     sdk_version: "current",
-    vendor: true,
+    device_specific: true,
 }
